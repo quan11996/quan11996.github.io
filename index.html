@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>喵喵次元妆造屋 - 专业COS化妆假发服务</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <style>
+        :root {
+            --primary-color: #ff69b4;
+            --secondary-color: #ff97c1;
+            --text-color: #4a4a4a;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+        }
+
+        body {
+            background-color: #fff5f7;
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        /* 导航栏样式 */
+        .navbar {
+            background-color: var(--primary-color);
+            padding: 1rem;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .navbar ul {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .navbar a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.2rem;
+            transition: opacity 0.3s;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+        }
+
+        .navbar a:hover {
+            background: rgba(255,255,255,0.2);
+        }
+
+        /* 轮播图样式 */
+        .swiper {
+            width: 100%;
+            height: 500px;
+            margin: 2rem 0;
+        }
+
+        .swiper-slide {
+            position: relative;
+            overflow: hidden;
+            border-radius: 15px;
+        }
+
+        .swiper-slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+
+        .swiper-slide:hover img {
+            transform: scale(1.05);
+        }
+
+        /* 服务卡片 */
+        .services {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            padding: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .service-card {
+            background: white;
+            border-radius: 15px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+            cursor: pointer;
+        }
+
+        .service-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .service-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+        }
+
+        /* 妆娘列表 */
+        .maid-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            padding: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .maid-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            text-align: center;
+            position: relative;
+        }
+
+        .maid-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(transparent 60%, rgba(0,0,0,0.6));
+            z-index: 1;
+        }
+
+        .maid-card img {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            transition: transform 0.3s;
+        }
+
+        .maid-card:hover img {
+            transform: scale(1.05);
+        }
+
+        .maid-card h3 {
+            position: absolute;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            color: white;
+            z-index: 2;
+            font-size: 1.5rem;
+        }
+
+        /* 预约表单 */
+        .booking-form {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+
+        input, textarea, select {
+            width: 100%;
+            padding: 0.8rem;
+            border: 2px solid var(--primary-color);
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        input:focus, textarea:focus {
+            outline: none;
+            border-color: var(--secondary-color);
+            box-shadow: 0 0 8px rgba(255,105,180,0.3);
+        }
+
+        button {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin: 0 auto;
+        }
+
+        button:hover {
+            background-color: #ff4d94;
+            transform: scale(1.05);
+        }
+
+        /* 加载动画 */
+        .loading {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 50px;
+            height: 50px;
+            border: 5px solid var(--primary-color);
+            border-radius: 50%;
+            border-top-color: transparent;
+            animation: spin 1s linear infinite;
+            z-index: 9999;
+        }
+
+        @keyframes spin {
+            to { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+
+        /* 模态框 */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.2);
+            z-index: 1001;
+            text-align: center;
+        }
+
+        .modal h3 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .navbar ul {
+                flex-direction: column;
+                text-align: center;
+                gap: 1rem;
+            }
+
+            .swiper {
+                height: 300px;
+            }
+
+            .services {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <ul>
+            <li>首页</li>
+            <li>服务项目</li>
+            <li>妆娘列表</li>
+            <li>立即预约</li>
+        </ul>
+    </nav>
+
+    <div class="loading"></div>
+
+    <div class="swiper">
+        <div class="swiper-wrapper">
+            <div class="swiper-slide"><img src="001.jpg" alt="案例展示1"></div>
+            <div class="swiper-slide"><img src="002.jpg" alt="案例展示2"></div>
+            <div class="swiper-slide"><img src="banner3.jpg" alt="案例展示3"></div>
+        </div>
+        <div class="swiper-pagination"></div>
+        <div class="swiper-button-prev"></div>
+        <div class="swiper-button-next"></div>
+    </div>
+
+    <section class="services" id="services">
+        <!-- 服务卡片内容保持不变 -->
+    </section>
+
+    <section class="maid-list" id="maids">
+        <!-- 妆娘卡片内容保持不变 -->
+    </section>
+
+    <section class="booking-form" id="booking">
+        <h2>📅 预约申请表</h2>
+        <form id="bookingForm">
+            <div class="form-group">
+                <label>您的CN/昵称</label>
+                <input type="text" id="username" required>
+                <div class="error-msg"></div>
+            </div>
+            
+            <div class="form-group">
+                <label>联系电话</label>
+                <input type="tel" id="phone" pattern="[0-9]{11}" required>
+                <div class="error-msg"></div>
+            </div>
+
+            <div class="form-group">
+                <label>服务类型</label>
+                <select id="serviceType" required>
+                    <option value="">请选择服务类型</option>
+                    <option value="full">全套妆造（¥399）</option>
+                    <option value="makeup">单独化妆（¥199）</option>
+                    <option value="wig">假发定制（¥299起）</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>预约时间</label>
+                <input type="datetime-local" id="bookingTime" required>
+            </div>
+
+            <div class="form-group">
+                <label>特殊要求</label>
+                <textarea id="notes" rows="4" placeholder="请描述角色特征或提供参考图片链接"></textarea>
+            </div>
+
+            <button type="submit">
+                <span class="btn-text">提交预约</span>
+                <svg class="loading-spinner" viewBox="0 0 50 50" width="20" height="20" style="display: none;">
+                    <circle cx="25" cy="25" r="20" fill="none" stroke="white" stroke-width="4" stroke-linecap="round">
+                        <animateTransform attributeName="transform" type="rotate" from="0 25 25" to="360 25 25" dur="1s" repeatCount="indefinite"/>
+                    </circle>
+                </svg>
+            </button>
+        </form>
+    </section>
+
+    <div class="modal" id="successModal">
+        <h3>🎉 预约成功！</h3>
+        <p>我们将在24小时内与您联系确认细节</p >
+        <button onclick="closeModal()">确定</button>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script>
+        // 初始化轮播图
+        const swiper = new Swiper('.swiper', {
+            loop: true,
+            autoplay: {
+                delay: 5000,
+            },
+            navigation: {
+                nextEl: '.swiper-button-next',
+                prevEl: '.swiper-button-prev',
+            },
+            pagination: {
+                el: '.swiper-pagination',
+                clickable: true,
+            },
+        });
+
+        // 初始化日期选择器
+        flatpickr('#bookingTime', {
+            minDate: 'today',
+            dateFormat: 'Y-m-d H:i',
+            enableTime: true,
+            time_24hr: true,
+            locale: 'zh'
+        });
+
+        // 表单验证
+        const form = document.getElementById('bookingForm');
+        const loading = document.querySelector('.loading');
+        const modal = document.getElementById('successModal');
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const submitBtn = form.querySelector('button[type="submit"]');
+            submitBtn.disabled = true;
+            submitBtn.querySelector('.btn-text').textContent = '提交中...';
+            submitBtn.querySelector('svg').style.display = 'inline-block';
+
+            try {
+                // 模拟API请求
+                await new Promise(resolve => setTimeout(resolve, 1500));
+                
+                modal.style.display = 'block';
+                form.reset();
+            } catch (error) {
+                console.error('提交失败:', error);
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.querySelector('.btn-text').textContent = '提交预约';
+                submitBtn.querySelector('svg').style.display = 'none';
+            }
+        });
+
+        // 滚动动画
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.animate-on-scroll').forEach(el => {
+            observer.observe(el);
+        });
+
+        // 模态框控制
+        function closeModal() {
+            modal.style.display = 'none';
+        }
+
+        // 页面加载动画
+        window.addEventListener('load', () => {
+            document.querySelector('.loading').style.display = 'none';
+        });
+
+        // 导航栏滚动效果
+        window.addEventListener('scroll', () => {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 50) {
+                navbar.style.backgroundColor = 'rgba(255,105,180,0.95)';
+            } else {
+                navbar.style.backgroundColor = 'var(--primary-color)';
+            }
+        });
+    </script>
+</body>
+</html>
